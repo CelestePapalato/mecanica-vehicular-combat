@@ -1,28 +1,26 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class CarControl : MonoBehaviour
 {
-    [SerializeField] float motorTorque = 2000;
-    [SerializeField] float brakeTorque = 2000;
-    [SerializeField] float maxSpeed = 20;
-    [SerializeField] float steeringRange = 30;
-    [SerializeField] float steeringRangeAtMaxSpeed = 10;
-    [SerializeField] float centreOfGravityOffset = -1f;
+    public float motorTorque = 2000;
+    public float brakeTorque = 2000;
+    public float maxSpeed = 20;
+    public float steeringRange = 30;
+    public float steeringRangeAtMaxSpeed = 10;
+    public float centreOfGravityOffset = -1f;
 
-    Rigidbody rb;
     WheelControl[] wheels;
+    Rigidbody rigidBody;
 
-    private void Awake()
-    {
-        rb = GetComponent<Rigidbody>();
-        // Adjust center of mass vertically, to help prevent the car from rolling <<<<
-        rb.centerOfMass += Vector3.up * centreOfGravityOffset;
-    }
-
+    // Start is called before the first frame update
     void Start()
     {
+        rigidBody = GetComponent<Rigidbody>();
+
+        // Adjust center of mass vertically, to help prevent the car from rolling
+        rigidBody.centerOfMass += Vector3.up * centreOfGravityOffset;
+
+        // Find all child GameObjects that have the WheelControl script attached
         wheels = GetComponentsInChildren<WheelControl>();
     }
 
@@ -35,7 +33,7 @@ public class CarControl : MonoBehaviour
 
         // Calculate current speed in relation to the forward direction of the car
         // (this returns a negative number when traveling backwards)
-        float forwardSpeed = Vector3.Dot(transform.forward, rb.velocity);
+        float forwardSpeed = Vector3.Dot(transform.forward, rigidBody.velocity);
 
 
         // Calculate how close the car is to top speed
@@ -57,26 +55,26 @@ public class CarControl : MonoBehaviour
         foreach (var wheel in wheels)
         {
             // Apply steering to Wheel colliders that have "Steerable" enabled
-            if (wheel.Steerable)
+            if (wheel.steerable)
             {
-                wheel.SteerAngle = hInput * currentSteerRange;
+                wheel.WheelCollider.steerAngle = hInput * currentSteerRange;
             }
 
             if (isAccelerating)
             {
                 // Apply torque to Wheel colliders that have "Motorized" enabled
-                if (!wheel.Steerable)
+                if (wheel.motorized)
                 {
-                    wheel.MotorTorque = vInput * currentMotorTorque;
+                    wheel.WheelCollider.motorTorque = vInput * currentMotorTorque;
                 }
-                wheel.BrakeTorque = 0;
+                wheel.WheelCollider.brakeTorque = 0;
             }
             else
             {
                 // If the user is trying to go in the opposite direction
                 // apply brakes to all wheels
-                wheel.BrakeTorque = Mathf.Abs(vInput) * brakeTorque;
-                wheel.MotorTorque = 0;
+                wheel.WheelCollider.brakeTorque = Mathf.Abs(vInput) * brakeTorque;
+                wheel.WheelCollider.motorTorque = 0;
             }
         }
     }

@@ -1,31 +1,33 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class WheelControl : MonoBehaviour
 {
-    [SerializeField] Transform wheelTransform;
-    [SerializeField] bool steerable = false;
+    public Transform wheelModel;
 
-    public bool Steerable { get => steerable; }
+    [HideInInspector] public WheelCollider WheelCollider;
 
-    public float SteerAngle { get => wheelCollider.steerAngle; set => wheelCollider.steerAngle = value; }
-    public float MotorTorque { get => wheelCollider.motorTorque; set => wheelCollider.motorTorque = value; }
-    public float BrakeTorque { get => wheelCollider.brakeTorque; set => wheelCollider.brakeTorque = value; }
+    // Create properties for the CarControl script
+    // (You should enable/disable these via the 
+    // Editor Inspector window)
+    public bool steerable;
+    public bool motorized;
 
-    private WheelCollider wheelCollider;
+    Vector3 position;
+    Quaternion rotation;
 
-    private void Awake()
+    // Start is called before the first frame update
+    private void Start()
     {
-        wheelCollider = GetComponent<WheelCollider>();
+        WheelCollider = GetComponent<WheelCollider>();
     }
 
-    private void Update()
+    // Update is called once per frame
+    void Update()
     {
-        Vector3 position;
-        Quaternion rotation;
-        wheelCollider.GetWorldPose(out position, out rotation);
-        wheelTransform.position = position;
-        wheelTransform.rotation = rotation;
+        // Get the Wheel collider's world pose values and
+        // use them to set the wheel model's position and rotation
+        WheelCollider.GetWorldPose(out position, out rotation);
+        wheelModel.transform.position = position;
+        wheelModel.transform.rotation = rotation;
     }
 }
