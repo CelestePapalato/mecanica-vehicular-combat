@@ -581,6 +581,12 @@ MonoBehaviour:
   m_CameraActivatedEvent:
     m_PersistentCalls:
       m_Calls: []
+--- !u!1 &366712789 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 105746822475977726, guid: 1dcfe6e10bf0d174f93c58af0546998b,
+    type: 3}
+  m_PrefabInstance: {fileID: 7565951056180888520}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &410087039
 GameObject:
   m_ObjectHideFlags: 0
@@ -723,13 +729,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 493486227}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: -0.7071068}
   m_LocalPosition: {x: 0, y: 2, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 834584225}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 270, y: 0, z: 0}
 --- !u!1 &518745086
 GameObject:
   m_ObjectHideFlags: 0
@@ -848,6 +854,7 @@ GameObject:
   - component: {fileID: 534741110}
   - component: {fileID: 534741112}
   - component: {fileID: 534741111}
+  - component: {fileID: 534741113}
   m_Layer: 0
   m_Name: Gun
   m_TagString: Untagged
@@ -920,12 +927,61 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 534741109}
   m_Mesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &534741113
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 534741109}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0d3612f221eaba641b21160a9368e8f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _projectilePrefab: {fileID: 8302037008059660537, guid: b8533d6f6e46ac14f8663966071273a5,
+    type: 3}
+  _spawnPoint: {fileID: 493486228}
+  _fireRate: 0.25
+  shootStrength: 20
+  _particleSystem: {fileID: 0}
 --- !u!4 &715340015 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 737570542516619588, guid: 1dcfe6e10bf0d174f93c58af0546998b,
     type: 3}
   m_PrefabInstance: {fileID: 7565951056180888520}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &715340016
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 366712789}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Actions: {fileID: -944628639613478452, guid: c0148b600dfa04347aa1d573d08776d2,
+    type: 3}
+  m_NotificationBehavior: 1
+  m_UIInputModule: {fileID: 0}
+  m_DeviceLostEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_DeviceRegainedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ControlsChangedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ActionEvents: []
+  m_NeverAutoSwitchControlSchemes: 0
+  m_DefaultControlScheme: 
+  m_DefaultActionMap: Gameplay
+  m_SplitScreenIndex: -1
+  m_Camera: {fileID: 0}
 --- !u!1 &790498289
 GameObject:
   m_ObjectHideFlags: 0
@@ -1198,6 +1254,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 834584225}
+  - component: {fileID: 834584226}
   m_Layer: 0
   m_Name: Weapon Pivot
   m_TagString: Untagged
@@ -1222,6 +1279,18 @@ Transform:
   - {fileID: 493486228}
   m_Father: {fileID: 715340015}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &834584226
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 834584224}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2b1e23d35088b894e8e414109dcf37c4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &855580936
 GameObject:
   m_ObjectHideFlags: 0
@@ -2862,7 +2931,11 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 834584225}
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 105746822475977726, guid: 1dcfe6e10bf0d174f93c58af0546998b,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 715340016}
   m_SourcePrefab: {fileID: 100100000, guid: 1dcfe6e10bf0d174f93c58af0546998b, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:

@@ -56,7 +56,7 @@ public class Gun : MonoBehaviour, IBuffable
         Damage projectileDamage = projectile.GetComponent<Damage>();
         projectileDamage.DamageMultiplier = _currentDamageMultiplier;
         Rigidbody rb = projectile.GetComponent<Rigidbody>();
-        rb.AddForce(transform.forward * shootStrength, ForceMode.Impulse);
+        rb.AddForce(_spawnPoint.transform.forward * shootStrength, ForceMode.Impulse);
     }
 
     private IEnumerator ControlFireRate()
