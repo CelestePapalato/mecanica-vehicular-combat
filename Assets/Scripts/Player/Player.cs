@@ -27,10 +27,13 @@ public class Player : MonoBehaviour
     Vector2 delta = Vector2.zero;
     Vector2 cameraInput = Vector2.zero;
 
+    Camera mainCamera;
+
     private void Awake()
     {
         carControl = GetComponentInChildren<CarControl>();
         x_AxisRotation = weaponPivot.localEulerAngles.x;
+        mainCamera = Camera.main;
     }
 
     private void Update()
@@ -51,6 +54,7 @@ public class Player : MonoBehaviour
 
     private void OnMove(InputValue inputValue){
         Vector2 input = inputValue.Get<Vector2>();
+        //input = Quaternion.Euler(0, mainCamera.transform.eulerAngles.y, 0) * input;
         carControl.MovementInput = input;
     }
 
@@ -58,5 +62,15 @@ public class Player : MonoBehaviour
     {
         Vector2 input = inputValue.Get<Vector2>();
         cameraInput = inputValue.Get<Vector2>();
+    }
+
+    private void OnAccelerator(InputValue inputValue)
+    {
+        carControl.Accelerator = !carControl.Accelerator;
+    }
+
+    private void OnReverse(InputValue inputValue)
+    {
+        carControl.Reverse = !carControl.Reverse;
     }
 }
