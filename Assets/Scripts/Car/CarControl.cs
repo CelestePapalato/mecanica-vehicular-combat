@@ -2,6 +2,9 @@ using UnityEngine;
 
 public class CarControl : MonoBehaviour
 {
+    private Vector2 movementInput = Vector2.zero;
+    public Vector2 MovementInput { get => movementInput; set => movementInput = value; }
+
     public float motorTorque = 2000;
     public float brakeTorque = 2000;
     public float maxSpeed = 20;
@@ -28,8 +31,8 @@ public class CarControl : MonoBehaviour
     void Update()
     {
 
-        float vInput = Input.GetAxis("Vertical");
-        float hInput = Input.GetAxis("Horizontal");
+        float vInput = movementInput.y;
+        float hInput = movementInput.x;
 
         // Calculate current speed in relation to the forward direction of the car
         // (this returns a negative number when traveling backwards)

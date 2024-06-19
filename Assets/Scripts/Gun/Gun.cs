@@ -14,7 +14,7 @@ public class Gun : MonoBehaviour, IBuffable
     }
 
     [SerializeField]
-    private float shootStrength;
+    private float shootImpulse;
     [SerializeField] ParticleSystem _particleSystem;
 
     private bool _canShoot = true;
@@ -56,7 +56,7 @@ public class Gun : MonoBehaviour, IBuffable
         Damage projectileDamage = projectile.GetComponent<Damage>();
         projectileDamage.DamageMultiplier = _currentDamageMultiplier;
         Rigidbody rb = projectile.GetComponent<Rigidbody>();
-        rb.AddForce(_spawnPoint.transform.forward * shootStrength, ForceMode.Impulse);
+        rb.AddForce(_spawnPoint.transform.forward * shootImpulse, ForceMode.Impulse);
     }
 
     private IEnumerator ControlFireRate()
