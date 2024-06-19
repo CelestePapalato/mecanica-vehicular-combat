@@ -294,8 +294,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 246457648}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.2771731, y: -0.000000041998778, z: 0.000000012115621, w: -0.96082}
-  m_LocalPosition: {x: -18.1, y: 5.6400003, z: -37.114002}
+  m_LocalRotation: {x: 0.1116133, y: 0, z: 0, w: 0.9937517}
+  m_LocalPosition: {x: -18.1, y: 5.6400003, z: -49.884003}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -496,8 +496,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 330585543}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.2771731, y: -0.000000041998778, z: 0.000000012115621, w: -0.96082}
-  m_LocalPosition: {x: -18.1, y: 5.6400003, z: -37.114002}
+  m_LocalRotation: {x: 0.1116133, y: 0, z: 0, w: 0.9937517}
+  m_LocalPosition: {x: -18.1, y: 5.6400003, z: -49.884003}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -724,7 +724,7 @@ Transform:
   m_GameObject: {fileID: 493486227}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: 1, z: -0, w: -0}
-  m_LocalPosition: {x: 0, y: -0.006000042, z: -2}
+  m_LocalPosition: {x: 0, y: -0.006000042, z: 2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -865,7 +865,7 @@ Transform:
   m_GameObject: {fileID: 534741109}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0.7071068, z: 0.7071068, w: 0}
-  m_LocalPosition: {x: 0, y: -0.006000042, z: -1}
+  m_LocalPosition: {x: 0, y: -0.006000042, z: 1}
   m_LocalScale: {x: 0.35, y: 1, z: 0.35000005}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -937,7 +937,7 @@ MonoBehaviour:
     type: 3}
   _spawnPoint: {fileID: 493486228}
   _fireRate: 0.8
-  shootStrength: 50
+  shootImpulse: 30
   _particleSystem: {fileID: 0}
 --- !u!4 &715340015 stripped
 Transform:
@@ -1233,7 +1233,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 834584224}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 1.09, z: -0.384}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -1241,7 +1241,7 @@ Transform:
   - {fileID: 534741110}
   - {fileID: 493486228}
   m_Father: {fileID: 715340015}
-  m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &834584226
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1536,8 +1536,8 @@ MonoBehaviour:
   m_ScreenY: 0.5
   m_DeadZoneWidth: 0
   m_DeadZoneHeight: 0
-  m_SoftZoneWidth: 0.391
-  m_SoftZoneHeight: 0.45
+  m_SoftZoneWidth: 0.23
+  m_SoftZoneHeight: 0.29
   m_BiasX: 0
   m_BiasY: 0
   m_CenterOnActivate: 1
@@ -1557,12 +1557,12 @@ MonoBehaviour:
   ShoulderOffset: {x: 0.5, y: 0, z: 0}
   VerticalArmLength: 4.55
   CameraSide: 0.5
-  CameraDistance: -7.23
+  CameraDistance: 20
   CameraCollisionFilter:
     serializedVersion: 2
     m_Bits: 193
   IgnoreTag: 
-  CameraRadius: 0.077
+  CameraRadius: 0.173
   DampingIntoCollision: 0
   DampingFromCollision: 2
 --- !u!1 &1072224771
@@ -2917,8 +2917,8 @@ SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 330585546}
+  - {fileID: 246457650}
   - {fileID: 410087041}
   - {fileID: 832575519}
   - {fileID: 1494984187}
   - {fileID: 1200979920}
-  - {fileID: 246457650}
