@@ -89,7 +89,16 @@ public class CarControl : MonoBehaviour
 
         // …and to calculate how much to steer 
         // (the car steers more gently at top speed)
-        float currentSteerRange = Mathf.Lerp(steeringRange, steeringRangeAtMaxSpeed, speedFactor);
+        float currentSteerRange;
+
+        if (reverse && isReversing)
+        {
+            currentSteerRange = Mathf.Lerp(steeringRange, steeringRangeAtMaxSpeed, reverseSpeedFactor);
+        }
+        else
+        {
+            currentSteerRange = Mathf.Lerp(steeringRange, steeringRangeAtMaxSpeed, speedFactor);
+        }
 
         // Check whether the user input is in the same direction 
         // as the car's velocity
@@ -105,34 +114,32 @@ public class CarControl : MonoBehaviour
                 wheel.WheelCollider.steerAngle = hInput * currentSteerRange;
             }
 
-            if (reverse)
+
+            if(isBracking)
             {
-                if (isBracking)
-                {
-                    wheel.WheelCollider.brakeTorque = brakeTorque;
-                    wheel.WheelCollider.motorTorque = 0;
-                }
-                
-                if (isReversing)
-                {
-                    if (wheel.motorized)
-                    {
-                        wheel.WheelCollider.motorTorque = currentReverseMotorTorque;
-                    }
-                }
+                wheel.WheelCollider.brakeTorque = brakeTorque;
+                wheel.WheelCollider.motorTorque = 0;
             }
             else
             {
                 wheel.WheelCollider.brakeTorque = 0;
             }
 
-            if (accelerator)
+            if (isReversing && wheel.motorized)
             {
-                if (wheel.motorized)
-                {
-                    wheel.WheelCollider.motorTorque = currentMotorTorque;
-                }
+                wheel.WheelCollider.motorTorque = currentReverseMotorTorque;
             }
+
+            if (accelerator && wheel.motorized)
+            {
+                wheel.WheelCollider.motorTorque = currentMotorTorque;
+            }
+
+            if(!isReversing && !accelerator && wheel.motorized)
+            {
+                wheel.WheelCollider.motorTorque = 0;
+            }
+            
             //wheel.WheelCollider.brakeTorque = (Reverse) ? brakeTorque : 0;
             /*
             if (accelerator)
