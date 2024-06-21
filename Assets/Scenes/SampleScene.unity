@@ -2765,7 +2765,7 @@ Rigidbody:
     type: 3}
   m_PrefabInstance: {fileID: 7565951056180888520}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1861168889
+--- !u!114 &1861168891
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2779,6 +2779,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   primerEstado: {fileID: 1200979925}
   estadoActual: {fileID: 0}
+  motorTorque: 2100
+  reverseMotorTorque: 2100
+  brakeTorque: 80000
+  maxSpeed: 20
+  maxReverseSpeed: 5
+  steeringRange: 30
+  steeringRangeAtMaxSpeed: 10
+  centreOfGravityOffset: -1
 --- !u!1 &1871622966
 GameObject:
   m_ObjectHideFlags: 0
@@ -3322,7 +3330,8 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 366324820710058796, guid: 1dcfe6e10bf0d174f93c58af0546998b, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 737570542516619588, guid: 1dcfe6e10bf0d174f93c58af0546998b,
@@ -3333,7 +3342,7 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 105746822475977726, guid: 1dcfe6e10bf0d174f93c58af0546998b,
         type: 3}
       insertIndex: -1
-      addedObject: {fileID: 1861168889}
+      addedObject: {fileID: 1861168891}
   m_SourcePrefab: {fileID: 100100000, guid: 1dcfe6e10bf0d174f93c58af0546998b, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:

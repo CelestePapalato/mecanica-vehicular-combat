@@ -24,6 +24,7 @@ public class Reverse : CarState
             {
                 wheel.WheelCollider.motorTorque = currentReverseMotorTorque;
             }
+            wheel.WheelCollider.brakeTorque = 0;
         }
     }
 

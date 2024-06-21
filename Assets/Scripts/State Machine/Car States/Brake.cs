@@ -4,18 +4,10 @@ using UnityEngine;
 
 public class Brake : CarState
 {
-    bool wheelsNull = false;
-
-    public override void Entrar(StateMachine personajeActual)
-    {
-        base.Entrar(personajeActual);
-        ApplyBrake();
-    }
-
     public override void Actualizar()
     {
-        if(!wheelsNull) { return;}
         base.Actualizar();
+        ApplyBrake();
     }
 
     public override void Salir()
@@ -35,14 +27,12 @@ public class Brake : CarState
 
     private void ApplyBrake()
     {
-        if (wheels == null) { wheelsNull = true; return; }
+        if (wheels == null) { return; }
 
-        wheelsNull = false;
         foreach (WheelControl wheel in wheels)
         {
             if(wheel.WheelCollider == null)
             {
-                wheelsNull = true;
                 break;
             }
             WheelCollider wheelCollider = wheel.WheelCollider;

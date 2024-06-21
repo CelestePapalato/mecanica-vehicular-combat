@@ -52,17 +52,15 @@ public class Car : StateMachine, IBuffable
         base.Awake();
         
         rigidBody = GetComponent<Rigidbody>();
-
-        // Adjust center of mass vertically, to help prevent the car from rolling
         rigidBody.centerOfMass += Vector3.up * centreOfGravityOffset;
-
-        // Find all child GameObjects that have the WheelControl script attached
         wheels = GetComponentsInChildren<WheelControl>();
     }
 
     public override void CambiarEstado(State nuevoEstado)
     {
         base.CambiarEstado(nuevoEstado);
+        CarState carState = nuevoEstado as CarState;
+        if (carState) { carState.CurrentCar = this; }
     }
 
     protected override void Update()
@@ -112,11 +110,18 @@ public class Car : StateMachine, IBuffable
 public class CarState : State
 {
     protected Car car;
-    public Car Car
+    public Car CurrentCar
     {
         get => car;
         set
         {
+            if (value == null)
+            {
+                car = null;
+                wheels = null;
+                return;
+            }
+
             if (car != value)
             {
                 car = value;
@@ -126,17 +131,6 @@ public class CarState : State
     }
 
     protected WheelControl[] wheels;
-
-    public override void Entrar(StateMachine personajeActual)
-    {
-        base.Entrar(personajeActual);
-
-        Car newCar = personajeActual as Car;
-        if (newCar != car)
-        {
-            car = newCar;
-        }
-    }
 
     public override void Actualizar()
     {

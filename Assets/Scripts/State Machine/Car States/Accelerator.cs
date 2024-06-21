@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class Accelerator : CarState
 {
-
     public override void Actualizar()
     {
         base.Actualizar();
@@ -22,6 +21,7 @@ public class Accelerator : CarState
             {
                 wheel.WheelCollider.motorTorque = currentMotorTorque;
             }
+            wheel.WheelCollider.brakeTorque = 0;
         }
     }
     public override void Salir()
