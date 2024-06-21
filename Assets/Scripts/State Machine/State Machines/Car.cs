@@ -63,11 +63,6 @@ public class Car : StateMachine, IBuffable
     public override void CambiarEstado(State nuevoEstado)
     {
         base.CambiarEstado(nuevoEstado);
-        CarState carState = estadoActual as CarState;
-        if (carState)
-        {
-            carState.Car = this;
-        }
     }
 
     protected override void Update()
@@ -131,6 +126,17 @@ public class CarState : State
     }
 
     protected WheelControl[] wheels;
+
+    public override void Entrar(StateMachine personajeActual)
+    {
+        base.Entrar(personajeActual);
+
+        Car newCar = personajeActual as Car;
+        if (newCar != car)
+        {
+            car = newCar;
+        }
+    }
 
     public override void Actualizar()
     {
