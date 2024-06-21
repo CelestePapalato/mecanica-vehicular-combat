@@ -11,10 +11,12 @@ public class Reverse : CarState
 
         if (wheels == null) { return; }
 
-        float forwardSpeed = Vector3.Dot(car.transform.forward, car.rigidBody.velocity);
+        float forwardSpeed = car.ForwardSpeed();
 
         float reverseSpeedFactor = Mathf.InverseLerp(0, -car.maxReverseSpeed, forwardSpeed);
         float currentReverseMotorTorque = Mathf.Lerp(-car.reverseMotorTorque, 0, reverseSpeedFactor);
+
+        Debug.Log("speed " + forwardSpeed + " | " + "factor " + reverseSpeedFactor + " | torque " + currentReverseMotorTorque);
 
         foreach (WheelControl wheel in wheels)
         {

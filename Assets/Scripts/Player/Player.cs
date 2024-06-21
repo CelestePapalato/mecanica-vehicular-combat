@@ -1,8 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using TMPro;
 
 public class Player : MonoBehaviour
 {
@@ -12,7 +12,7 @@ public class Player : MonoBehaviour
     [SerializeField] State Brake;
 
     [SerializeField]
-    Transform weaponPivot;
+    Transform cameraPivot;
 
     [Header("Camera Parameters")]
     [SerializeField] float sensitivy;
@@ -24,6 +24,8 @@ public class Player : MonoBehaviour
     [SerializeField]
     [Range(-90, 90)] float lowerLookLimit;
 
+    [Header("UI")]
+    [SerializeField] TMP_Text speedText;
 
     Car carStateMachine;
 
@@ -42,19 +44,27 @@ public class Player : MonoBehaviour
     private void Awake()
     {
         carStateMachine = GetComponent<Car>();
-        x_AxisRotation = weaponPivot.localEulerAngles.x;
+        if (!carStateMachine)
+        {
+            carStateMachine = GetComponentInChildren<Car>();
+        }
+        x_AxisRotation = cameraPivot.localEulerAngles.x;
         mainCamera = Camera.main;
     }
 
     private void Update()
     {
-        if(!carStateMachine) { return; }
-        Debug.Log(carStateMachine.ForwardSpeed());
-        StopBraking();
-        //RotateGunPivot();
+        RotateCameraPivot();
+        if (!carStateMachine) { return; }
+        //StopBraking();
     }
 
-    private void RotateGunPivot()
+    private void LateUpdate()
+    {
+        UpdateSpeedUI();
+    }
+
+    private void RotateCameraPivot()
     {
         delta.x = Mathf.SmoothStep(delta.x, cameraInput.x * sensitivy * Time.deltaTime, smoothing);
         delta.y = Mathf.SmoothStep(delta.y, cameraInput.y * sensitivy * Time.deltaTime, smoothing);
@@ -62,7 +72,7 @@ public class Player : MonoBehaviour
         x_AxisRotation += delta.y;
         x_AxisRotation = Mathf.Clamp(x_AxisRotation, lowerLookLimit, upperLookLimit);
 
-        weaponPivot.localRotation = Quaternion.Euler(x_AxisRotation, delta.x + weaponPivot.localEulerAngles.y, 0);
+        cameraPivot.localRotation = Quaternion.Euler(x_AxisRotation, delta.x + cameraPivot.localEulerAngles.y, 0);
     }
 
     private void OnMove(InputValue inputValue){
@@ -87,8 +97,9 @@ public class Player : MonoBehaviour
         }
         if(!acceleratorInput && reverseInput)
         {
-            isReversing = false;
-            carStateMachine.CambiarEstado(Brake);
+            //isReversing = false;
+            //carStateMachine.CambiarEstado(Brake);
+            carStateMachine.CambiarEstado(Reverse);
             return;
         }
         if (acceleratorInput)
@@ -104,7 +115,7 @@ public class Player : MonoBehaviour
         reverseInput = !reverseInput;
         if(acceleratorInput && reverseInput)
         {
-            isReversing = false;
+            //isReversing = false;
             return;
         }
         if(!acceleratorInput && !reverseInput)
@@ -114,6 +125,12 @@ public class Player : MonoBehaviour
             return;
         }
 
+        if (reverseInput)
+        {
+            carStateMachine?.CambiarEstado(Reverse);
+        }
+
+        /*
         if (carStateMachine?.ForwardSpeed() < -.1f)
         {
             isReversing = true;
@@ -124,6 +141,7 @@ public class Player : MonoBehaviour
             isReversing = false;
             carStateMachine?.CambiarEstado(Brake);
         }
+        */
     }
 
     private void StopBraking()
@@ -135,6 +153,16 @@ public class Player : MonoBehaviour
         if(Mathf.Abs(carStateMachine.ForwardSpeed()) < .1f) {
             isReversing = true;
             carStateMachine?.CambiarEstado(Reverse);
+        }
+    }
+
+    // # ------------------- UI
+
+    private void UpdateSpeedUI()
+    {
+        if (speedText)
+        {
+            speedText.text = Mathf.Ceil(Mathf.Abs(carStateMachine.ForwardSpeed())) + "";
         }
     }
 }

@@ -9,31 +9,13 @@ public class Brake : CarState
     public override void Entrar(StateMachine personajeActual)
     {
         base.Entrar(personajeActual);
-
-        if (wheels == null)
-        {
-            wheelsNull = true;
-            return;
-        }
-
-        foreach (WheelControl wheel in wheels)
-        {
-            wheel.WheelCollider.brakeTorque = car.brakeTorque;
-            wheel.WheelCollider.motorTorque = 0;
-        }
+        ApplyBrake();
     }
 
     public override void Actualizar()
     {
-        if(!wheelsNull) { return; }
+        if(!wheelsNull) { return;}
         base.Actualizar();
-        if(wheels == null) { return; }
-
-        foreach (WheelControl wheel in wheels)
-        {
-            wheel.WheelCollider.brakeTorque = car.brakeTorque;
-            wheel.WheelCollider.motorTorque = 0;
-        }
     }
 
     public override void Salir()
@@ -42,7 +24,37 @@ public class Brake : CarState
         if(wheels == null) { return; }
         foreach (WheelControl wheel in wheels)
         {
+            if (wheel.WheelCollider == null)
+            {
+                break;
+            }
             wheel.WheelCollider.brakeTorque = 0;
+            wheel.WheelCollider.motorTorque = 0;
+        }
+    }
+
+    private void ApplyBrake()
+    {
+        if (wheels == null) { wheelsNull = true; return; }
+
+        wheelsNull = false;
+        foreach (WheelControl wheel in wheels)
+        {
+            if(wheel.WheelCollider == null)
+            {
+                wheelsNull = true;
+                break;
+            }
+            WheelCollider wheelCollider = wheel.WheelCollider;
+            if (wheel.steerable)
+            {
+                wheelCollider.brakeTorque = Mathf.Max(car.brakeTorque * wheelCollider.rpm, car.brakeTorque);
+            }
+            else
+            {
+                wheelCollider.brakeTorque = Mathf.Max(car.brakeTorque * .45f * wheelCollider.rpm, car.brakeTorque * .45f);
+            }
+            wheelCollider.motorTorque = 0;
         }
     }
 }

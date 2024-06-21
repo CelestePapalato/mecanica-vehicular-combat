@@ -11,7 +11,7 @@ public class Accelerator : CarState
 
         if (wheels == null) { return; }
 
-        float forwardSpeed = Vector3.Dot(car.transform.forward, car.rigidBody.velocity);
+        float forwardSpeed = car.ForwardSpeed();
 
         float speedFactor = Mathf.InverseLerp(0, car.maxSpeed * car.SpeedMultiplier, forwardSpeed);
         float currentMotorTorque = Mathf.Lerp(car.motorTorque * car.MotorTorqueMultiplier, 0, speedFactor);
