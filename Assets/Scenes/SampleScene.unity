@@ -1224,7 +1224,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &834584225
 Transform:
   m_ObjectHideFlags: 0
@@ -1897,6 +1897,10 @@ GameObject:
   - component: {fileID: 1200979920}
   - component: {fileID: 1200979922}
   - component: {fileID: 1200979921}
+  - component: {fileID: 1200979926}
+  - component: {fileID: 1200979925}
+  - component: {fileID: 1200979924}
+  - component: {fileID: 1200979923}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -1932,6 +1936,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d6b18eb8686c774794d73d4234eb672, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Accelerator: {fileID: 1200979924}
+  Reverse: {fileID: 1200979923}
+  Brake: {fileID: 1200979925}
   weaponPivot: {fileID: 834584225}
   sensitivy: 1
   smoothing: 0.041
@@ -1968,6 +1975,56 @@ MonoBehaviour:
   m_DefaultActionMap: Gameplay
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
+--- !u!114 &1200979923
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1200979919}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d7729205d5c35d4cbd4e15f4712a622, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1200979924
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1200979919}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e5953d3f4cb392249bd395756021809d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1200979925
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1200979919}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91b834b44f040aa44a794cf1fe041ebc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1200979926
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1200979919}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 12ed8c7b85e29d6468f480d70407294b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  primerEstado: {fileID: 1200979925}
+  carControl: {fileID: 1861168887}
 --- !u!1 &1359322314
 GameObject:
   m_ObjectHideFlags: 0
@@ -2550,6 +2607,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1467905948}
   m_LocalEulerAnglesHint: {x: 0.593, y: -16.327, z: -90.446}
+--- !u!114 &1861168887 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 366324820710058796, guid: 1dcfe6e10bf0d174f93c58af0546998b,
+    type: 3}
+  m_PrefabInstance: {fileID: 7565951056180888520}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 77b751842153b694c8a0dfc3eeb2e4fb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1871622966
 GameObject:
   m_ObjectHideFlags: 0
@@ -2897,7 +2966,12 @@ PrefabInstance:
     - target: {fileID: 366324820710058796, guid: 1dcfe6e10bf0d174f93c58af0546998b,
         type: 3}
       propertyPath: maxReverseSpeed
-      value: 13
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 366324820710058796, guid: 1dcfe6e10bf0d174f93c58af0546998b,
+        type: 3}
+      propertyPath: reverseMotorTorque
+      value: 2100
       objectReference: {fileID: 0}
     - target: {fileID: 737570542516619588, guid: 1dcfe6e10bf0d174f93c58af0546998b,
         type: 3}

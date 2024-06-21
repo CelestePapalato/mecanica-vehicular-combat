@@ -6,6 +6,11 @@ using UnityEngine.InputSystem;
 
 public class Player : MonoBehaviour
 {
+    [Header("Input")]
+    [SerializeField] State Accelerator;
+    [SerializeField] State Reverse;
+    [SerializeField] State Brake;
+
     [SerializeField]
     Transform weaponPivot;
 
@@ -20,7 +25,7 @@ public class Player : MonoBehaviour
     [Range(-90, 90)] float lowerLookLimit;
 
 
-    CarControl carControl;
+    Car carStateMachine;
 
     float x_AxisRotation = 0f;
 
@@ -29,16 +34,24 @@ public class Player : MonoBehaviour
 
     Camera mainCamera;
 
+    bool acceleratorInput = false;
+    bool reverseInput = false;
+
+    bool isReversing = false;
+
     private void Awake()
     {
-        carControl = GetComponentInChildren<CarControl>();
+        carStateMachine = GetComponent<Car>();
         x_AxisRotation = weaponPivot.localEulerAngles.x;
         mainCamera = Camera.main;
     }
 
     private void Update()
     {
-        RotateGunPivot();
+        if(!carStateMachine) { return; }
+        Debug.Log(carStateMachine.ForwardSpeed());
+        StopBraking();
+        //RotateGunPivot();
     }
 
     private void RotateGunPivot()
@@ -55,7 +68,7 @@ public class Player : MonoBehaviour
     private void OnMove(InputValue inputValue){
         Vector2 input = inputValue.Get<Vector2>();
         //input = Quaternion.Euler(0, mainCamera.transform.eulerAngles.y, 0) * input;
-        carControl.MovementInput = input;
+        carStateMachine.SteeringWheelInput = input;
     }
 
     private void OnCamera(InputValue inputValue)
@@ -66,11 +79,62 @@ public class Player : MonoBehaviour
 
     private void OnAccelerator(InputValue inputValue)
     {
-        carControl.Accelerator = !carControl.Accelerator;
+        acceleratorInput = !acceleratorInput;
+        if (!acceleratorInput && !reverseInput)
+        {
+            carStateMachine?.CambiarEstado(Brake);
+            return;
+        }
+        if(!acceleratorInput && reverseInput)
+        {
+            isReversing = false;
+            carStateMachine.CambiarEstado(Brake);
+            return;
+        }
+        if (acceleratorInput)
+        {
+            isReversing = false;
+            if (!carStateMachine) { return; }
+            carStateMachine?.CambiarEstado(Accelerator);
+        }
     }
 
     private void OnReverse(InputValue inputValue)
     {
-        carControl.Reverse = !carControl.Reverse;
+        reverseInput = !reverseInput;
+        if(acceleratorInput && reverseInput)
+        {
+            isReversing = false;
+            return;
+        }
+        if(!acceleratorInput && !reverseInput)
+        {
+            isReversing = false;
+            carStateMachine?.CambiarEstado(Brake);
+            return;
+        }
+
+        if (carStateMachine?.ForwardSpeed() < -.1f)
+        {
+            isReversing = true;
+            carStateMachine?.CambiarEstado(Reverse);
+        }
+        else
+        {
+            isReversing = false;
+            carStateMachine?.CambiarEstado(Brake);
+        }
+    }
+
+    private void StopBraking()
+    {
+        if(!(reverseInput && !isReversing))
+        {
+            return;
+        }
+        if(Mathf.Abs(carStateMachine.ForwardSpeed()) < .1f) {
+            isReversing = true;
+            carStateMachine?.CambiarEstado(Reverse);
+        }
     }
 }

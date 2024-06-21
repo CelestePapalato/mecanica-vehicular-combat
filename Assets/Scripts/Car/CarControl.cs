@@ -1,45 +1,9 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class CarControl : MonoBehaviour
 {
-    private Vector2 movementInput = Vector2.zero;
-    public Vector2 MovementInput { get => movementInput; set => movementInput = value; }
-
-    private bool accelerator = false;
-    public bool Accelerator { get => accelerator; set => accelerator = value; }
-
-    private bool reverse = false;
-    public bool Reverse
-    {
-        get => reverse;
-
-        set
-        {
-            reverse = value;
-            if (reverse)
-            {
-                if (rigidBody.velocity.magnitude <= .1f)
-                {
-                    isReversing = true;
-                    isBracking = false;
-                }
-                else
-                {
-                    isReversing = false;
-                    isBracking = true;
-                }
-            }
-            else
-            {
-                isReversing = false;
-                isBracking = false;
-            }
-        }
-    }
-
-    bool isReversing;
-    bool isBracking;
-
     public float motorTorque = 2000;
     public float reverseMotorTorque = 1900;
     public float brakeTorque = 2000;
@@ -49,13 +13,36 @@ public class CarControl : MonoBehaviour
     public float steeringRangeAtMaxSpeed = 10;
     public float centreOfGravityOffset = -1f;
 
-    WheelControl[] wheels;
-    Rigidbody rigidBody;
+    private float speedMultiplier = 1f;
+    public float SpeedMultiplier
+    {
+        get => speedMultiplier;
+        set => speedMultiplier = (value >= 1) ? value : speedMultiplier;
+    }
 
-    bool carStarted = false;
+    private float motorTorqueMultiplier = 1f;
+    public float MotorTorqueMultiplier
+    {
+        get => motorTorqueMultiplier;
+        set => motorTorqueMultiplier = (value >= 1) ? value : motorTorqueMultiplier;
+    }
+
+    WheelControl[] wheels;
+    public WheelControl[] Wheels
+    {
+        get { 
+            if(wheels == null)
+            {
+                wheels = GetComponentsInChildren<WheelControl>();
+            }
+            return (WheelControl[])wheels.Clone();
+        }
+    }
+
+    public Rigidbody rigidBody;
 
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         rigidBody = GetComponent<Rigidbody>();
 
@@ -69,6 +56,7 @@ public class CarControl : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        /*
 
         float vInput = movementInput.y;
         float hInput = movementInput.x;
@@ -79,7 +67,7 @@ public class CarControl : MonoBehaviour
 
         // Calculate how close the car is to top speed
         // as a number from zero to one
-        float speedFactor = Mathf.InverseLerp(0, maxSpeed, forwardSpeed);
+        float speedFactor = Mathf.InverseLerp(0, maxSpeed * speedMultiplier, forwardSpeed);
         float reverseSpeedFactor = Mathf.InverseLerp(0, -maxReverseSpeed, forwardSpeed);
 
         // Use that to calculate how much torque is available 
@@ -91,13 +79,13 @@ public class CarControl : MonoBehaviour
         // (the car steers more gently at top speed)
         float currentSteerRange;
 
-        if (reverse && isReversing)
+        if (reverse)
         {
             currentSteerRange = Mathf.Lerp(steeringRange, steeringRangeAtMaxSpeed, reverseSpeedFactor);
         }
         else
         {
-            currentSteerRange = Mathf.Lerp(steeringRange, steeringRangeAtMaxSpeed, speedFactor);
+            currentSteerRange = Mathf.Lerp(steeringRange, steeringRange, speedFactor);
         }
 
         // Check whether the user input is in the same direction 
@@ -114,31 +102,42 @@ public class CarControl : MonoBehaviour
                 wheel.WheelCollider.steerAngle = hInput * currentSteerRange;
             }
 
+            /*
 
-            if(isBracking)
+            if(brackes)
             {
                 wheel.WheelCollider.brakeTorque = brakeTorque;
                 wheel.WheelCollider.motorTorque = 0;
+                if(brackes && isReversing)
+                {
+
+                }
             }
             else
             {
                 wheel.WheelCollider.brakeTorque = 0;
-            }
 
-            if (isReversing && wheel.motorized)
-            {
-                wheel.WheelCollider.motorTorque = currentReverseMotorTorque;
-            }
+                isReversing = false;
 
-            if (accelerator && wheel.motorized)
-            {
-                wheel.WheelCollider.motorTorque = currentMotorTorque;
-            }
+                if (reverse && wheel.motorized)
+                {
+                    wheel.WheelCollider.motorTorque = currentReverseMotorTorque;
+                    isReversing = true;
+                }
 
-            if(!isReversing && !accelerator && wheel.motorized)
-            {
-                wheel.WheelCollider.motorTorque = 0;
-            }
+                if (accelerator && wheel.motorized)
+                {
+                    wheel.WheelCollider.motorTorque = currentMotorTorque * motorTorqueMultiplier;
+                }
+
+                /*
+                if (!reverse && !accelerator && wheel.motorized)
+                {
+                    wheel.WheelCollider.motorTorque = 0;
+                }
+                */
+            // }
+
             
             //wheel.WheelCollider.brakeTorque = (Reverse) ? brakeTorque : 0;
             /*
@@ -159,6 +158,7 @@ public class CarControl : MonoBehaviour
                 wheel.WheelCollider.motorTorque = 0;
             }
             */
-        }
+        //}
     }
+
 }
