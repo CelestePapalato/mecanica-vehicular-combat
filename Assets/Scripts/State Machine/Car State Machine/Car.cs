@@ -65,23 +65,30 @@ public class Car : StateMachine, IBuffable
 
     protected override void Update()
     {
-            float hInput = steeringWheelInput.x;
+        base.Update();
 
-            float forwardSpeed = ForwardSpeed();
+        if (wheels == null || wheels[0].WheelCollider == null)
+        {
+            return;
+        }
 
-            float speedFactor = Mathf.InverseLerp(0, maxSpeed * SpeedMultiplier, forwardSpeed);
-            float reverseSpeedFactor = Mathf.InverseLerp(0, -maxReverseSpeed, forwardSpeed);
+        float hInput = steeringWheelInput.x;
 
-            float currentSteerRange;
+        float forwardSpeed = ForwardSpeed();
 
-            if (forwardSpeed < 0)
-            {
-                currentSteerRange = Mathf.Lerp(steeringRange, steeringRangeAtMaxSpeed, reverseSpeedFactor);
-            }
-            else
-            {
-                currentSteerRange = Mathf.Lerp(steeringRange, steeringRange, speedFactor);
-            }
+        float speedFactor = Mathf.InverseLerp(0, maxSpeed * SpeedMultiplier, forwardSpeed);
+        float reverseSpeedFactor = Mathf.InverseLerp(0, -maxReverseSpeed, forwardSpeed);
+
+        float currentSteerRange;
+
+        if (forwardSpeed < 0)
+        {
+            currentSteerRange = Mathf.Lerp(steeringRange, steeringRangeAtMaxSpeed, reverseSpeedFactor);
+        }
+        else
+        {
+            currentSteerRange = Mathf.Lerp(steeringRange, steeringRange, speedFactor);
+        }
 
         foreach (var wheel in wheels)
         {
@@ -91,7 +98,6 @@ public class Car : StateMachine, IBuffable
             }
 
         }
-        base.Update();
     }
 
     public float ForwardSpeed()

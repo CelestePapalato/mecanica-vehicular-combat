@@ -34,8 +34,6 @@ public class Player : MonoBehaviour
     Vector2 delta = Vector2.zero;
     Vector2 cameraInput = Vector2.zero;
 
-    Camera mainCamera;
-
     bool acceleratorInput = false;
     bool reverseInput = false;
 
@@ -49,7 +47,6 @@ public class Player : MonoBehaviour
             carStateMachine = GetComponentInChildren<Car>();
         }
         x_AxisRotation = cameraPivot.localEulerAngles.x;
-        mainCamera = Camera.main;
     }
 
     private void Update()
