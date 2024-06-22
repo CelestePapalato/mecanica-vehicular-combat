@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Car : StateMachine, IBuffable
+public class Car : StateMachine
 {
     [Header("Car Parameters")]
     public float motorTorque = 2000;
@@ -103,13 +103,6 @@ public class Car : StateMachine, IBuffable
     public float ForwardSpeed()
     {
         return Vector3.Dot(transform.forward, rigidBody.velocity);
-    }
-
-    // # ---------------- POWER UP ---------------- #
-
-    public void Accept(IBuff buff)
-    {
-        buff.Buff(this);
     }
 }
 

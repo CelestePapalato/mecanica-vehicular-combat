@@ -4,8 +4,8 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using TMPro;
 
-public class Player : MonoBehaviour
-{
+public class Player : MonoBehaviour, IBuffable
+{  
     [Header("Input")]
     [SerializeField] State Accelerator;
     [SerializeField] State Reverse;
@@ -168,7 +168,14 @@ public class Player : MonoBehaviour
         }
     }
 
-    // # ------------------- UI
+    // # ---------------- POWER UP ---------------- #
+
+    public void Accept(IBuff buff)
+    {
+        //buff.Buff(carStateMachine);
+    }
+
+    // # ----------------- UI ---------------- #
 
     private void UpdateSpeedUI()
     {

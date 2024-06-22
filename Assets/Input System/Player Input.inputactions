@@ -51,6 +51,15 @@
                     "initialStateCheck": true
                 },
                 {
+                    "name": "Nitro",
+                    "type": "Button",
+                    "id": "308167e7-e96f-4654-a47a-32b985667e99",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "Press(behavior=2)",
+                    "initialStateCheck": true
+                },
+                {
                     "name": "Join",
                     "type": "Button",
                     "id": "316fa6e9-8a21-4206-abc4-fb0199c6e480",
@@ -234,6 +243,28 @@
                     "processors": "",
                     "groups": "Keyboard Mouse",
                     "action": "Join",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "8b63805c-a2ba-4bd6-aa77-d0f780fd100c",
+                    "path": "<Keyboard>/space",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard Mouse",
+                    "action": "Nitro",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "296fe808-f7d3-4a82-a714-50ccee66b5d6",
+                    "path": "<Gamepad>/rightTrigger",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "Nitro",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
