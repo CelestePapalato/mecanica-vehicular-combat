@@ -39,7 +39,7 @@ public class Player : MonoBehaviour
     bool acceleratorInput = false;
     bool reverseInput = false;
 
-    bool isReversing = false;
+    bool isAccelerating = false;
 
     private void Awake()
     {
@@ -56,7 +56,7 @@ public class Player : MonoBehaviour
     {
         RotateCameraPivot();
         if (!carStateMachine) { return; }
-        //StopBraking();
+        ControlBraking();
     }
 
     private void LateUpdate()
@@ -95,18 +95,23 @@ public class Player : MonoBehaviour
             carStateMachine?.CambiarEstado(Brake);
             return;
         }
-        if(!acceleratorInput && reverseInput)
+
+        if (!acceleratorInput && reverseInput)
         {
-            //isReversing = false;
-            //carStateMachine.CambiarEstado(Brake);
-            carStateMachine.CambiarEstado(Reverse);
+            reverseInput = !reverseInput;
+            OnReverse(inputValue);
             return;
         }
-        if (acceleratorInput)
+
+        if (carStateMachine.ForwardSpeed() > .1f)
         {
-            isReversing = false;
-            if (!carStateMachine) { return; }
+            isAccelerating = false;
             carStateMachine?.CambiarEstado(Accelerator);
+        }
+        else
+        {
+            isAccelerating = true;
+            carStateMachine?.CambiarEstado(Brake);
         }
     }
 
@@ -115,44 +120,54 @@ public class Player : MonoBehaviour
         reverseInput = !reverseInput;
         if(acceleratorInput && reverseInput)
         {
-            //isReversing = false;
             return;
         }
+        if(acceleratorInput && !reverseInput)
+        {
+            acceleratorInput = !acceleratorInput;
+            OnAccelerator(inputValue);
+            return;
+        }
+
         if(!acceleratorInput && !reverseInput)
         {
-            isReversing = false;
+            isAccelerating = false;
             carStateMachine?.CambiarEstado(Brake);
             return;
         }
 
-        if (reverseInput)
-        {
-            carStateMachine?.CambiarEstado(Reverse);
-        }
-
-        /*
         if (carStateMachine?.ForwardSpeed() < -.1f)
         {
-            isReversing = true;
+            isAccelerating = false;
             carStateMachine?.CambiarEstado(Reverse);
         }
         else
         {
-            isReversing = false;
+            isAccelerating = true;
             carStateMachine?.CambiarEstado(Brake);
         }
-        */
     }
 
-    private void StopBraking()
+    private void ControlBraking()
     {
-        if(!(reverseInput && !isReversing))
+        if (!isAccelerating)
         {
             return;
         }
-        if(Mathf.Abs(carStateMachine.ForwardSpeed()) < .1f) {
-            isReversing = true;
-            carStateMachine?.CambiarEstado(Reverse);
+        if (Mathf.Abs(carStateMachine.ForwardSpeed()) < .1f)
+        {
+            if (reverseInput && !acceleratorInput)
+            {
+                isAccelerating = false;
+                carStateMachine?.CambiarEstado(Reverse);
+            }
+
+            if (acceleratorInput)
+            {
+                isAccelerating = false;
+                carStateMachine?.CambiarEstado(Accelerator);
+
+            }
         }
     }
 
