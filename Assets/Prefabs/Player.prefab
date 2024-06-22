@@ -375,6 +375,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 91b834b44f040aa44a794cf1fe041ebc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  torqueSpeedOverflow: 2100
+  speedOverflowReference: 20
 --- !u!114 &3996259726739000493
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -387,6 +389,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e5953d3f4cb392249bd395756021809d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  torqueSpeedOverflow: 3000
+  speedOverflowReference: 40
 --- !u!114 &6101236738953896621
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -399,6 +403,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d7729205d5c35d4cbd4e15f4712a622, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  torqueSpeedOverflow: 2100
+  speedOverflowReference: 9
 --- !u!1 &6001447622737102708
 GameObject:
   m_ObjectHideFlags: 0
@@ -816,9 +822,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nitroGaugeMax: 5
-  nitroSubstractionRate: 1
+  nitroSubstractionRate: 1.5
   nitroSpeedMultiplier: 2
-  nitroMotorTorqueMultiplier: 5
+  nitroMotorTorqueMultiplier: 2.3
 --- !u!136 &5915991725443490082
 CapsuleCollider:
   m_ObjectHideFlags: 0

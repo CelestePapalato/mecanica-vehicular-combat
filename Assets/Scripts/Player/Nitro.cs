@@ -31,10 +31,7 @@ public class Nitro : MonoBehaviour, IBuffable
     {
         StopAllCoroutines();
         nitroInput = !nitroInput;
-        if (nitroInput)
-        {
-            StartCoroutine(ControlNitro());
-        }
+        StartCoroutine(ControlNitro());
     }
 
     IEnumerator ControlNitro()

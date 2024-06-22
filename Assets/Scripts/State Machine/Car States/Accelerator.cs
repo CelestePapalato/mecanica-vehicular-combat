@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class Accelerator : CarState
 {
+    [SerializeField] float torqueSpeedOverflow;
+    [SerializeField] float speedOverflowReference;
+
     public override void Actualizar()
     {
         base.Actualizar();
@@ -12,8 +15,21 @@ public class Accelerator : CarState
 
         float forwardSpeed = car.ForwardSpeed();
 
-        float speedFactor = Mathf.InverseLerp(0, car.maxSpeed * car.SpeedMultiplier, forwardSpeed);
-        float currentMotorTorque = Mathf.Lerp(car.motorTorque * car.MotorTorqueMultiplier, 0, speedFactor);
+
+        float currentMotorTorque;
+        float currentMaxSpeed = car.maxSpeed * car.SpeedMultiplier;
+
+        if (forwardSpeed > currentMaxSpeed)
+        {
+            Debug.Log("uwu");
+            float overflowFactor = Mathf.InverseLerp(currentMaxSpeed, speedOverflowReference, forwardSpeed);
+            currentMotorTorque = Mathf.Lerp(0, -torqueSpeedOverflow, overflowFactor);
+        }
+        else
+        {
+            float speedFactor = Mathf.InverseLerp(0, currentMaxSpeed, forwardSpeed);
+            currentMotorTorque = Mathf.Lerp(car.motorTorque * car.MotorTorqueMultiplier, 0, speedFactor);
+        }
 
         foreach (WheelControl wheel in wheels)
         {

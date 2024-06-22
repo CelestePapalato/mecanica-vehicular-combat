@@ -5,6 +5,9 @@ using UnityEngine;
 
 public class Reverse : CarState
 {
+    [SerializeField] float torqueSpeedOverflow;
+    [SerializeField] float speedOverflowReference;
+
     public override void Actualizar()
     {
         base.Actualizar();
@@ -13,10 +16,19 @@ public class Reverse : CarState
 
         float forwardSpeed = car.ForwardSpeed();
 
-        float reverseSpeedFactor = Mathf.InverseLerp(0, -car.maxReverseSpeed, forwardSpeed);
-        float currentReverseMotorTorque = Mathf.Lerp(-car.reverseMotorTorque, 0, reverseSpeedFactor);
+        float currentReverseMotorTorque;
 
-        Debug.Log("speed " + forwardSpeed + " | " + "factor " + reverseSpeedFactor + " | torque " + currentReverseMotorTorque);
+        if (forwardSpeed < -car.maxReverseSpeed)
+        {
+
+            float overflowFactor = Mathf.InverseLerp(-car.maxReverseSpeed, -speedOverflowReference, forwardSpeed);
+            currentReverseMotorTorque = Mathf.Lerp(0, torqueSpeedOverflow, overflowFactor);
+        }
+        else
+        {
+            float reverseSpeedFactor = Mathf.InverseLerp(0, -car.maxReverseSpeed, forwardSpeed);
+            currentReverseMotorTorque = Mathf.Lerp(-car.reverseMotorTorque, 0, reverseSpeedFactor);
+        }
 
         foreach (WheelControl wheel in wheels)
         {
