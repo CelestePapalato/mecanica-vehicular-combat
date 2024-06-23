@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class Brake : CarState
 {
-    [SerializeField] float torqueSpeedOverflow;
-    [SerializeField] float speedOverflowReference;
     public override void Actualizar()
     {
         base.Actualizar();
@@ -31,11 +29,6 @@ public class Brake : CarState
     {
         if (wheels == null) { return; }
 
-        float speed = car.ForwardSpeed();
-        float direction = - Mathf.Sign(speed);
-        speed = Mathf.Abs(speed);
-        float motorTorque = (speed > speedOverflowReference)? motorTorque = torqueSpeedOverflow * direction : 0;
-
         foreach (WheelControl wheel in wheels)
         {
             if(wheel.WheelCollider == null)
@@ -51,7 +44,7 @@ public class Brake : CarState
             {
                 wheelCollider.brakeTorque = Mathf.Max(car.brakeTorque * .45f * wheelCollider.rpm, car.brakeTorque * .45f);
             }
-            wheelCollider.motorTorque = motorTorque;
+            wheelCollider.motorTorque = 0;
         }
     }
 }

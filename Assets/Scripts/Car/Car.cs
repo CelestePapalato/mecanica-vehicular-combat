@@ -12,6 +12,7 @@ public class Car : StateMachine
     public float maxReverseSpeed = 10;
     public float steeringRange = 30;
     public float steeringRangeAtMaxSpeed = 10;
+    public float steeringRangeAtMaxReverseSpeed = 20;
     public float centreOfGravityOffset = -1f;
 
     private float speedMultiplier = 1f;
@@ -76,18 +77,17 @@ public class Car : StateMachine
 
         float forwardSpeed = ForwardSpeed();
 
-        float speedFactor = Mathf.InverseLerp(0, maxSpeed * SpeedMultiplier, forwardSpeed);
-        float reverseSpeedFactor = Mathf.InverseLerp(0, -maxReverseSpeed, forwardSpeed);
-
         float currentSteerRange;
 
         if (forwardSpeed < 0)
         {
-            currentSteerRange = Mathf.Lerp(steeringRange, steeringRangeAtMaxSpeed, reverseSpeedFactor);
+            float reverseSpeedFactor = Mathf.InverseLerp(0, -maxReverseSpeed, forwardSpeed);
+            currentSteerRange = Mathf.Lerp(steeringRange, steeringRangeAtMaxReverseSpeed, reverseSpeedFactor);
         }
         else
         {
-            currentSteerRange = Mathf.Lerp(steeringRange, steeringRange, speedFactor);
+            float speedFactor = Mathf.InverseLerp(0, maxSpeed * SpeedMultiplier, forwardSpeed);
+            currentSteerRange = Mathf.Lerp(steeringRange, steeringRangeAtMaxSpeed, speedFactor);
         }
 
         foreach (var wheel in wheels)
