@@ -735,7 +735,7 @@ MonoBehaviour:
       m_Flags: 0
     m_Reference: {fileID: 5606517546340216756, guid: c0148b600dfa04347aa1d573d08776d2,
       type: 3}
-  m_PlayerPrefab: {fileID: 5076207155902287439, guid: d7f0e47cab8cc064c9a43be74688186c,
+  m_PlayerPrefab: {fileID: 5076207155902287439, guid: c53228d8492eab944a3767269195fe4c,
     type: 3}
   m_SplitScreen: 1
   m_MaintainAspectRatioInSplitScreen: 0
@@ -773,6 +773,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a53bd6a96a6d80743929edb32d468865, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  carPrefabs:
+  - {fileID: 4697744797955510539, guid: cb6d6788b5c648941be41413644e15c8, type: 3}
+  - {fileID: 6665739267438258416, guid: 9ac892eb5683b8b448c6a4d65af70c89, type: 3}
   playerLayers:
   - serializedVersion: 2
     m_Bits: 4096
@@ -2544,7 +2547,7 @@ PrefabInstance:
     - target: {fileID: 7303544892184061483, guid: 72a07a6e50058f44683df97d29dd1873,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.0244653
+      value: -0.15
       objectReference: {fileID: 0}
     - target: {fileID: 7303544892184061483, guid: 72a07a6e50058f44683df97d29dd1873,
         type: 3}

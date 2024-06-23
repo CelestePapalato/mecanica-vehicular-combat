@@ -7,6 +7,8 @@ using UnityEngine.InputSystem;
 public class PlayerManager : MonoBehaviour
 {
     [SerializeField]
+    private List<GameObject> carPrefabs;
+    [SerializeField]
     private List<LayerMask> playerLayers;
     [SerializeField]
     private List<LayerMask> hurtboxLayers;
@@ -39,6 +41,10 @@ public class PlayerManager : MonoBehaviour
         players.Add(player);
         Transform playerTransform = player.transform;
         playerTransform.position = startingPoints[players.Count -1].position;
+
+        Transform playerCar = playerTransform.Find("Car").transform;
+
+        Instantiate(carPrefabs[players.Count-1], playerCar);
 
         Debug.Log("Jugador " + players.Count + " ha entrado a la partida");
 
