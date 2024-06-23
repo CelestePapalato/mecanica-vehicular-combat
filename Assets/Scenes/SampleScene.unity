@@ -778,6 +778,16 @@ MonoBehaviour:
     m_Bits: 4096
   - serializedVersion: 2
     m_Bits: 8192
+  hurtboxLayers:
+  - serializedVersion: 2
+    m_Bits: 256
+  - serializedVersion: 2
+    m_Bits: 1024
+  hitboxLayers:
+  - serializedVersion: 2
+    m_Bits: 512
+  - serializedVersion: 2
+    m_Bits: 2048
   startingPoints:
   - {fileID: 1884211230}
   - {fileID: 439073727}

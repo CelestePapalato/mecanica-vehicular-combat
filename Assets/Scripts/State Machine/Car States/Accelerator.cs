@@ -21,7 +21,6 @@ public class Accelerator : CarState
 
         if (forwardSpeed > currentMaxSpeed)
         {
-            Debug.Log("uwu");
             float overflowFactor = Mathf.InverseLerp(currentMaxSpeed, speedOverflowReference, forwardSpeed);
             currentMotorTorque = Mathf.Lerp(0, -torqueSpeedOverflow, overflowFactor);
         }

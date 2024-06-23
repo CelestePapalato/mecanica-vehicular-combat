@@ -14,10 +14,10 @@ TagManager:
   - UI
   - Player
   - NPC
-  - Player Hurtbox
-  - Player Hitbox
-  - Enemy Hurtbox
-  - Enemy Hitbox
+  - Player 1 Hurtbox
+  - Player 1 Hitbox
+  - Player 2 Hurtbox
+  - Player 2 Hitbox
   - Player 1
   - Player 2
   - Item
