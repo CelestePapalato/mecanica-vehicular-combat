@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Player Cursor
   - Car
+  - Model
   layers:
   - Default
   - TransparentFX
@@ -42,4 +43,7 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: UI
+    uniqueID: 1274348203
     locked: 0
