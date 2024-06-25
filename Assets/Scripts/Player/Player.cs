@@ -46,14 +46,19 @@ public class Player : MonoBehaviour, IBuffable
     Damage damage;
     DamageModifier damageModifier;
 
+    Nitro nitro;
+
     private void Awake()
     {
         carStateMachine = GetComponentInChildren<Car>();
+        nitro = carStateMachine.GetComponent<Nitro>();
         health = GetComponentInChildren<Health>();
         health.onDamage += Damaged;
         damage = GetComponentInChildren<Damage>();
         damageModifier = GetComponentInChildren<DamageModifier>();
         damageModifier.car = carStateMachine;
+        Healthbar healthbar = GetComponentInChildren<Healthbar>();
+        healthbar.healthComponent = health;
         x_AxisRotation = cameraPivot.localEulerAngles.x;
     }
 
@@ -186,6 +191,11 @@ public class Player : MonoBehaviour, IBuffable
 
             }
         }
+    }
+
+    private void OnNitro()
+    {
+        nitro?.ActivateNitro();
     }
 
     // # ---------------- POWER UP ---------------- #

@@ -27,7 +27,7 @@ public class Nitro : MonoBehaviour, IBuffable
         Debug.Log("Nitro : " + currentNitro + " / " + nitroGaugeMax);
     }
 
-    private void OnNitro()
+    public void ActivateNitro()
     {
         StopAllCoroutines();
         nitroInput = !nitroInput;
