@@ -224,7 +224,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2644216632523539279}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.08892885, y: -0, z: -0, w: 0.996038}
+  m_LocalRotation: {x: 0.08892883, y: -0, z: -0, w: 0.996038}
   m_LocalPosition: {x: 0, y: 0.52, z: -5.384001}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -389,6 +389,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   torqueSpeedOverflow: 3000
   speedOverflowReference: 30
+  tolerance: 1
 --- !u!114 &6101236738953896621
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -436,76 +437,6 @@ Transform:
   - {fileID: 377474778049131296}
   m_Father: {fileID: 5045022191425576626}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &5363045670598712862
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 823556346506107116}
-  - component: {fileID: 1491152714728994313}
-  - component: {fileID: 3800446444793916853}
-  m_Layer: 0
-  m_Name: Hurtbox
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &823556346506107116
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5363045670598712862}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.5, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 5045022191425576626}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!136 &1491152714728994313
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5363045670598712862}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 1
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.54
-  m_Height: 2.74
-  m_Direction: 2
-  m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &3800446444793916853
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5363045670598712862}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7a676e1a955bb504cb8c05c9cea8258d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  maxHealth: 10
-  invincibilityTime: 0
 --- !u!1 &5886631430804801981
 GameObject:
   m_ObjectHideFlags: 0
@@ -776,7 +707,6 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 5544740166114446783}
-  - {fileID: 823556346506107116}
   m_Father: {fileID: 1644759324252693225}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!54 &2487263331650841654
@@ -820,10 +750,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   primerEstado: {fileID: 899593280897479473}
   estadoActual: {fileID: 0}
-  motorTorque: 400
-  reverseMotorTorque: 400
+  motorTorque: 850
+  reverseMotorTorque: 625
   brakeTorque: 800
-  maxSpeed: 15
+  maxSpeed: 15.3
   maxReverseSpeed: 5
   steeringRange: 30
   steeringRangeAtMaxSpeed: 10
@@ -896,7 +826,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8061523781409523239}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.08892885, y: -0, z: -0, w: 0.996038}
+  m_LocalRotation: {x: 0.08892883, y: -0, z: -0, w: 0.996038}
   m_LocalPosition: {x: 0, y: 0.52, z: -5.384001}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0

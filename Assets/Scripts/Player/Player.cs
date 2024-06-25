@@ -3,9 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using TMPro;
+using System;
 
 public class Player : MonoBehaviour, IBuffable
 {  
+    public static event Action<Player> onDead;
+
     [Header("Input")]
     [SerializeField] State Accelerator;
     [SerializeField] State Reverse;
@@ -39,13 +42,18 @@ public class Player : MonoBehaviour, IBuffable
 
     bool isAccelerating = false;
 
+    Health health;
+    Damage damage;
+    DamageModifier damageModifier;
+
     private void Awake()
     {
-        carStateMachine = GetComponent<Car>();
-        if (!carStateMachine)
-        {
-            carStateMachine = GetComponentInChildren<Car>();
-        }
+        carStateMachine = GetComponentInChildren<Car>();
+        health = GetComponentInChildren<Health>();
+        health.onDamage += Damaged;
+        damage = GetComponentInChildren<Damage>();
+        damageModifier = GetComponentInChildren<DamageModifier>();
+        damageModifier.car = carStateMachine;
         x_AxisRotation = cameraPivot.localEulerAngles.x;
     }
 
@@ -60,6 +68,18 @@ public class Player : MonoBehaviour, IBuffable
     {
         UpdateSpeedUI();
     }
+
+    // # ---------------- EVENTS ---------------- #
+
+    private void Damaged(int current, int maxHealth)
+    {
+        if(current == 0) {
+            onDead?.Invoke(this);
+            Destroy(gameObject);
+        }
+    }
+
+    // # ---------------- INPUT ---------------- #
 
     private void RotateCameraPivot()
     {
@@ -181,7 +201,7 @@ public class Player : MonoBehaviour, IBuffable
     {
         if (speedText)
         {
-            speedText.text = Mathf.Ceil(Mathf.Abs(carStateMachine.ForwardSpeed())) + "";
+            speedText.text = (Mathf.Abs(carStateMachine.ForwardSpeed())) + "";
         }
     }
 }

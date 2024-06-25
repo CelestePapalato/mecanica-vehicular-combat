@@ -6,6 +6,7 @@ public class Accelerator : CarState
 {
     [SerializeField] float torqueSpeedOverflow;
     [SerializeField] float speedOverflowReference;
+    [SerializeField] float tolerance;
 
     public override void Actualizar()
     {
@@ -19,7 +20,7 @@ public class Accelerator : CarState
         float currentMotorTorque;
         float currentMaxSpeed = car.maxSpeed * car.SpeedMultiplier;
 
-        if (forwardSpeed > currentMaxSpeed)
+        if (forwardSpeed > currentMaxSpeed + tolerance)
         {
             float overflowFactor = Mathf.InverseLerp(currentMaxSpeed, speedOverflowReference, forwardSpeed);
             currentMotorTorque = Mathf.Lerp(0, -torqueSpeedOverflow, overflowFactor);

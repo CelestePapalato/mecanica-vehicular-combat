@@ -9,8 +9,8 @@ public class Health : MonoBehaviour, IDamageable, IHittable
     [SerializeField] float invincibilityTime;
     public UnityAction<int, int> HealthUpdate;
     public UnityAction NoHealth;
-    public UnityAction<int, int> Damaged;
-    public UnityAction<int, int> Healed;
+    public UnityAction<int, int> onDamage;
+    public UnityAction<int, int> onHeal;
 
     int health;
     bool invincibility = false;
@@ -39,9 +39,9 @@ public class Health : MonoBehaviour, IDamageable, IHittable
         {
             HealthUpdate(health, maxHealth);
         }
-        if (Healed != null)
+        if (onHeal != null)
         {
-            Healed(health, maxHealth);
+            onHeal(health, maxHealth);
         }
     }
 
@@ -56,9 +56,9 @@ public class Health : MonoBehaviour, IDamageable, IHittable
         {
             HealthUpdate(health, maxHealth);
         }
-        if (Damaged != null)
+        if (onDamage != null)
         {
-            Damaged.Invoke(health, maxHealth);
+            onDamage.Invoke(health, maxHealth);
         }
         if (health <= 0 && NoHealth != null)
         {
