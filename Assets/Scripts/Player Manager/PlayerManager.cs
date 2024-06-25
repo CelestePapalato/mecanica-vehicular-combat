@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using static UnityEditor.Experimental.GraphView.GraphView;
 
 public class PlayerManager : MonoBehaviour
 {
@@ -29,11 +30,13 @@ public class PlayerManager : MonoBehaviour
     private void OnEnable()
     {
         playerInputManager.playerJoinedEvent.AddListener(AddPlayer);
+        playerInputManager.playerLeftEvent.AddListener(PlayerLeft);
     }
 
     private void OnDisable()
     {
         playerInputManager.playerJoinedEvent?.RemoveListener(AddPlayer);
+        playerInputManager.playerLeftEvent?.RemoveListener(PlayerLeft);
     }
 
     private void AddPlayer(PlayerInput player)
@@ -61,6 +64,33 @@ public class PlayerManager : MonoBehaviour
         foreach (Damage hitbox in hitboxs)
         {
             hitbox.gameObject.layer = hitboxLayer;
+        }
+
+        if(players.Count > 1)
+        {
+            float x = 0;
+            foreach(PlayerInput _player in players)
+            {
+                Camera[] cameras = _player.GetComponentsInChildren<Camera>();
+                foreach (Camera cam in cameras)
+                {
+                    cam.rect = new Rect(x, 0, 0.5f, 1);
+                }
+                x += 0.5f;
+            }
+        }
+    }
+
+    private void PlayerLeft(PlayerInput player)
+    {
+        players.Remove(player);
+        if (players.Count == 1)
+        {
+            Camera[] cameras = players[0].GetComponentsInChildren<Camera>();
+            foreach (Camera cam in cameras)
+            {
+                cam.rect = new Rect(0, 0, 1, 1);
+            }
         }
     }
 }
