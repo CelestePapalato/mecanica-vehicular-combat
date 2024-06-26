@@ -219,7 +219,7 @@ public class Player : MonoBehaviour
     {
         if (speedText)
         {
-            speedText.text = (Mathf.Abs(carStateMachine.ForwardSpeed())) + "";
+            speedText.text = (Mathf.Abs(carStateMachine.ForwardSpeed())).ToString("F2");
         }
     }
 }
