@@ -11,8 +11,8 @@ public class PowerUp : ScriptableObject, IBuff
     [SerializeField] int _healPoints;
     [Header("Nitro")]
     [SerializeField] int nitroPoints;
-    [Header("Movement")]
-    [SerializeField] float _speedMultiplier;
+    //[Header("Movement")]
+    //[SerializeField] float _speedMultiplier;
 
     public void Buff(object o)
     {

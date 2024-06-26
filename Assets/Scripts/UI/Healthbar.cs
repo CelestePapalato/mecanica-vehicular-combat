@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -12,7 +13,22 @@ public class Healthbar : MonoBehaviour
     {
         healthbarSlider = GetComponent<Slider>();
         if (!healthbarSlider || !healthComponent) { gameObject.SetActive(false); }
-        healthComponent.HealthUpdate += UpdateSlider;
+    }
+
+    private void OnEnable()
+    {
+        if (healthComponent)
+        {
+            healthComponent.HealthUpdate += UpdateSlider;
+        }
+    }
+
+    private void OnDisable()
+    {
+        if (healthComponent)
+        {
+            healthComponent.HealthUpdate -= UpdateSlider;
+        }
     }
 
     public void UpdateSlider(int value, int maxValue)

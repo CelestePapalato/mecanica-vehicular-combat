@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class Health : MonoBehaviour, IDamageable, IHittable
+public class Health : MonoBehaviour, IDamageable, IHittable, IBuffable
 {
     [SerializeField] int maxHealth;
     [SerializeField] float invincibilityTime;
@@ -30,6 +30,11 @@ public class Health : MonoBehaviour, IDamageable, IHittable
         {
             HealthUpdate(health, maxHealth);
         }
+    }
+
+    public void Accept(IBuff buff)
+    {
+        buff?.Buff(this);
     }
 
     public void Heal(int healPoints)

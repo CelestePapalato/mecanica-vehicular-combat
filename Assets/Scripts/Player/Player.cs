@@ -5,7 +5,7 @@ using UnityEngine.InputSystem;
 using TMPro;
 using System;
 
-public class Player : MonoBehaviour, IBuffable
+public class Player : MonoBehaviour
 {  
     public static event Action<Player> onDead;
 
@@ -53,13 +53,28 @@ public class Player : MonoBehaviour, IBuffable
         carStateMachine = GetComponentInChildren<Car>();
         nitro = carStateMachine.GetComponent<Nitro>();
         health = GetComponentInChildren<Health>();
-        health.onDamage += Damaged;
         damage = GetComponentInChildren<Damage>();
         damageModifier = GetComponentInChildren<DamageModifier>();
         damageModifier.car = carStateMachine;
         Healthbar healthbar = GetComponentInChildren<Healthbar>();
         healthbar.healthComponent = health;
         x_AxisRotation = cameraPivot.localEulerAngles.x;
+    }
+
+    private void OnEnable()
+    {
+        if (health)
+        {
+            health.onDamage += Damaged;
+        }
+    }
+
+    private void OnDisable()
+    {
+        if (health)
+        {
+            health.onDamage -= Damaged;
+        }
     }
 
     private void Update()
@@ -196,13 +211,6 @@ public class Player : MonoBehaviour, IBuffable
     private void OnNitro()
     {
         nitro?.ActivateNitro();
-    }
-
-    // # ---------------- POWER UP ---------------- #
-
-    public void Accept(IBuff buff)
-    {
-        //buff.Buff(carStateMachine);
     }
 
     // # ----------------- UI ---------------- #
