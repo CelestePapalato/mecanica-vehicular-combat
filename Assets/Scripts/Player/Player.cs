@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using TMPro;
 using System;
+using System.Linq;
 
 public class Player : MonoBehaviour
 {  
@@ -46,10 +47,13 @@ public class Player : MonoBehaviour
     Damage damage;
     DamageModifier damageModifier;
 
+    PlayerInput playerInput;
+
     Nitro nitro;
 
     private void Awake()
     {
+        playerInput = GetComponent<PlayerInput>();
         carStateMachine = GetComponentInChildren<Car>();
         nitro = carStateMachine.GetComponent<Nitro>();
         health = GetComponentInChildren<Health>();
@@ -67,6 +71,8 @@ public class Player : MonoBehaviour
         {
             health.onDamage += Damaged;
         }
+        GameManager.onGameStarted += EnableInput;
+        GameManager.onGameFinished += DisableInput;
     }
 
     private void OnDisable()
@@ -75,6 +81,8 @@ public class Player : MonoBehaviour
         {
             health.onDamage -= Damaged;
         }
+        GameManager.onGameStarted -= EnableInput;
+        GameManager.onGameFinished -= DisableInput;
     }
 
     private void Update()
@@ -95,11 +103,21 @@ public class Player : MonoBehaviour
     {
         if(current == 0) {
             onDead?.Invoke(this);
-            Destroy(gameObject);
+            DisableInput();
         }
     }
 
     // # ---------------- INPUT ---------------- #
+
+    private void EnableInput()
+    {
+        playerInput.enabled = true;
+    }
+
+    private void DisableInput()
+    {
+        playerInput.enabled = false;
+    }
 
     private void RotateCameraPivot()
     {

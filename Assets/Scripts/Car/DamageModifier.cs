@@ -25,7 +25,7 @@ public class DamageModifier : MonoBehaviour
         damage = GetComponent<Damage>();
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
         if(!car) { return; }
         float currentSpeed = Mathf.Abs(car.ForwardSpeed());

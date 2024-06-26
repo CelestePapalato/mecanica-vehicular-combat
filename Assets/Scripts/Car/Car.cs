@@ -1,9 +1,12 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class Car : StateMachine
 {
+    public static event Action<Car> onDestroy;
+
     [Header("Car Parameters")]
     public float motorTorque = 2000;
     public float reverseMotorTorque = 1900;
@@ -48,6 +51,8 @@ public class Car : StateMachine
     private Vector2 steeringWheelInput = Vector2.zero;
     public Vector2 SteeringWheelInput { get => steeringWheelInput; set => steeringWheelInput = value; }
 
+    private Health health;
+
     protected override void Awake()
     {
         base.Awake();
@@ -55,7 +60,34 @@ public class Car : StateMachine
         rigidBody = GetComponent<Rigidbody>();
         rigidBody.centerOfMass += Vector3.up * centreOfGravityOffset;
         wheels = GetComponentsInChildren<WheelControl>();
+        health = GetComponentInChildren<Health>();
     }
+
+    private void OnEnable()
+    {
+        if (health)
+        {
+            health.onDamage += DamageReceived;
+        }
+    }
+
+    private void OnDisable()
+    {
+        if (health)
+        {
+            health.onDamage -= DamageReceived;
+        }
+    }
+
+    private void DamageReceived(int health, int maxHealth)
+    {
+        if(health == 0)
+        {
+            onDestroy?.Invoke(this);
+        }
+    }
+
+    // # ---------------- STATE MACHINE ---------------- #
 
     public override void CambiarEstado(State nuevoEstado)
     {
@@ -68,7 +100,11 @@ public class Car : StateMachine
     {
         base.Update();
 
-        if (wheels == null || wheels[0].WheelCollider == null)
+        if (wheels == null)
+        {
+            return;
+        }
+        if(wheels[0].WheelCollider == null)
         {
             return;
         }

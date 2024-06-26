@@ -1,12 +1,22 @@
 using Cinemachine;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.InputSystem;
-using static UnityEditor.Experimental.GraphView.GraphView;
 
 public class PlayerManager : MonoBehaviour
 {
+    public static event Action<PlayerInput> onPlayerAdded;
+    public UnityEvent onFirstPlayerJoined;
+    public UnityEvent onMultiplayer;
+    public UnityEvent onMultiplayerDisabled;
+    public UnityEvent onNoPlayersLeft;
+
+    public static PlayerInput[] CurrentPlayers { get => players.ToArray(); }
+    private static List<PlayerInput> players = new List<PlayerInput>();
+
     [SerializeField]
     private List<GameObject> carPrefabs;
     [SerializeField]
@@ -18,13 +28,12 @@ public class PlayerManager : MonoBehaviour
     [SerializeField]
     private List<Transform> startingPoints;
 
-    private List<PlayerInput> players = new List<PlayerInput>();
-
     private PlayerInputManager playerInputManager;
 
     private void Awake()
     {
         playerInputManager = GetComponent<PlayerInputManager>();
+        DontDestroyOnLoad(this);
     }
 
     private void OnEnable()
@@ -42,15 +51,33 @@ public class PlayerManager : MonoBehaviour
     private void AddPlayer(PlayerInput player)
     {
         players.Add(player);
+
         Transform playerTransform = player.transform;
-        playerTransform.position = startingPoints[players.Count -1].position;
+        if (startingPoints.Count > 0) {
+
+            playerTransform.position = startingPoints[players.Count - 1].position;
+        }
+
+        // MOVER ESTO AL GAME MANAGER
 
         Transform playerCar = playerTransform.Find("Car").transform;
-
+        
         Instantiate(carPrefabs[players.Count-1], playerCar);
+
+        player.gameObject.SetActive(false);
 
         Debug.Log("Jugador " + players.Count + " ha entrado a la partida");
 
+        onPlayerAdded?.Invoke(player);
+        if(players.Count == 0)
+        {
+            onFirstPlayerJoined?.Invoke();
+        }
+        else
+        {
+            onMultiplayer?.Invoke();
+        }
+        /*
         int layerToAdd = (int)Mathf.Log(playerLayers[players.Count -1].value, 2);
         int hurtboxLayer = (int)Mathf.Log(hurtboxLayers[players.Count - 1].value, 2);
         int hitboxLayer = (int)Mathf.Log(hitboxLayers[players.Count - 1].value, 2);
@@ -79,6 +106,7 @@ public class PlayerManager : MonoBehaviour
                 x += 0.5f;
             }
         }
+        */
     }
 
     private void PlayerLeft(PlayerInput player)
@@ -91,6 +119,12 @@ public class PlayerManager : MonoBehaviour
             {
                 cam.rect = new Rect(0, 0, 1, 1);
             }
+            onMultiplayerDisabled?.Invoke();
+        }
+
+        if(players.Count == 0)
+        {
+            onNoPlayersLeft?.Invoke();
         }
     }
 }
