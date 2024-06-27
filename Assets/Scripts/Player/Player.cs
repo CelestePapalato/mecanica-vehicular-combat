@@ -49,6 +49,8 @@ public class Player : MonoBehaviour
 
     PlayerInput playerInput;
 
+    bool enableInput = false;
+
     Nitro nitro;
 
     private void Awake()
@@ -72,7 +74,6 @@ public class Player : MonoBehaviour
             health.onDamage += Damaged;
         }
         GameManager.onGameStarted += EnableInput;
-        GameManager.onGameFinished += DisableInput;
     }
 
     private void OnDisable()
@@ -82,7 +83,6 @@ public class Player : MonoBehaviour
             health.onDamage -= Damaged;
         }
         GameManager.onGameStarted -= EnableInput;
-        GameManager.onGameFinished -= DisableInput;
     }
 
     private void Update()
@@ -111,12 +111,16 @@ public class Player : MonoBehaviour
 
     private void EnableInput()
     {
-        playerInput.enabled = true;
+        enableInput = true;
     }
 
     private void DisableInput()
     {
-        playerInput.enabled = false;
+        enableInput = false;
+        isAccelerating = false;
+        reverseInput = false;
+        acceleratorInput = false;
+        carStateMachine.CambiarEstado(Brake);
     }
 
     private void RotateCameraPivot()
@@ -131,6 +135,10 @@ public class Player : MonoBehaviour
     }
 
     private void OnMove(InputValue inputValue){
+        if (!enableInput)
+        {
+            return;
+        }
         Vector2 input = inputValue.Get<Vector2>();
         //input = Quaternion.Euler(0, mainCamera.transform.eulerAngles.y, 0) * input;
         carStateMachine.SteeringWheelInput = input;
@@ -144,7 +152,13 @@ public class Player : MonoBehaviour
 
     private void OnAccelerator(InputValue inputValue)
     {
+        if(!enableInput)
+        {
+            return;
+        }
+
         acceleratorInput = !acceleratorInput;
+
         if (!acceleratorInput && !reverseInput)
         {
             carStateMachine?.CambiarEstado(Brake);
@@ -172,6 +186,10 @@ public class Player : MonoBehaviour
 
     private void OnReverse(InputValue inputValue)
     {
+        if (!enableInput)
+        {
+            return;
+        }
         reverseInput = !reverseInput;
         if(acceleratorInput && reverseInput)
         {
@@ -228,6 +246,10 @@ public class Player : MonoBehaviour
 
     private void OnNitro()
     {
+        if (!enableInput)
+        {
+            return;
+        }
         nitro?.ActivateNitro();
     }
 

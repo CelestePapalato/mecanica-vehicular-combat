@@ -20,12 +20,6 @@ public class PlayerManager : MonoBehaviour
     [SerializeField]
     private List<GameObject> carPrefabs;
     [SerializeField]
-    private List<LayerMask> playerLayers;
-    [SerializeField]
-    private List<LayerMask> hurtboxLayers;
-    [SerializeField]
-    private List<LayerMask> hitboxLayers;
-    [SerializeField]
     private List<Transform> startingPoints;
 
     private PlayerInputManager playerInputManager;
@@ -53,23 +47,15 @@ public class PlayerManager : MonoBehaviour
         players.Add(player);
 
         Transform playerTransform = player.transform;
-        if (startingPoints.Count > 0) {
-
-            playerTransform.position = startingPoints[players.Count - 1].position;
-        }
-
-        // MOVER ESTO AL GAME MANAGER
 
         Transform playerCar = playerTransform.Find("Car").transform;
         
         Instantiate(carPrefabs[players.Count-1], playerCar);
 
-        player.gameObject.SetActive(false);
-
         Debug.Log("Jugador " + players.Count + " ha entrado a la partida");
 
         onPlayerAdded?.Invoke(player);
-        if(players.Count == 0)
+        if(players.Count == 1)
         {
             onFirstPlayerJoined?.Invoke();
         }
@@ -77,6 +63,7 @@ public class PlayerManager : MonoBehaviour
         {
             onMultiplayer?.Invoke();
         }
+
         /*
         int layerToAdd = (int)Mathf.Log(playerLayers[players.Count -1].value, 2);
         int hurtboxLayer = (int)Mathf.Log(hurtboxLayers[players.Count - 1].value, 2);

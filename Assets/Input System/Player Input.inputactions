@@ -225,7 +225,7 @@
                 {
                     "name": "",
                     "id": "7df4cb8a-0fc3-44fa-b9ea-15102082d055",
-                    "path": "<Keyboard>/anyKey",
+                    "path": "<Keyboard>/enter",
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard Mouse",
