@@ -29,7 +29,6 @@ public class WinnerCanvas : MonoBehaviour
 
     public void EnableScreen(string name)
     {
-        Debug.Log("arrr");
         winnerNameText.text = name;
         winnerNameText.color = (name.Contains('1')) ? player1Color : player2Color;
         canvas.enabled = true;
