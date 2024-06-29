@@ -152,11 +152,6 @@ public class Player : MonoBehaviour
 
     private void OnAccelerator(InputValue inputValue)
     {
-        if(!enableInput)
-        {
-            return;
-        }
-
         acceleratorInput = !acceleratorInput;
 
         if (!acceleratorInput && !reverseInput)
@@ -165,10 +160,15 @@ public class Player : MonoBehaviour
             return;
         }
 
-        if (!acceleratorInput && reverseInput)
+        if (!acceleratorInput && reverseInput && enableInput)
         {
             reverseInput = !reverseInput;
             OnReverse(inputValue);
+            return;
+        }
+
+        if(!enableInput)
+        {
             return;
         }
 
@@ -186,16 +186,12 @@ public class Player : MonoBehaviour
 
     private void OnReverse(InputValue inputValue)
     {
-        if (!enableInput)
-        {
-            return;
-        }
         reverseInput = !reverseInput;
         if(acceleratorInput && reverseInput)
         {
             return;
         }
-        if(acceleratorInput && !reverseInput)
+        if(acceleratorInput && !reverseInput && enableInput)
         {
             acceleratorInput = !acceleratorInput;
             OnAccelerator(inputValue);
@@ -206,6 +202,11 @@ public class Player : MonoBehaviour
         {
             isAccelerating = false;
             carStateMachine?.CambiarEstado(Brake);
+            return;
+        }
+
+        if (!enableInput)
+        {
             return;
         }
 
