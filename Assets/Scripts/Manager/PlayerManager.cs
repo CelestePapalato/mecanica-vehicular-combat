@@ -27,7 +27,7 @@ public class PlayerManager : MonoBehaviour
     private void Awake()
     {
         playerInputManager = GetComponent<PlayerInputManager>();
-        DontDestroyOnLoad(this);
+        players.Clear();
     }
 
     private void OnEnable()

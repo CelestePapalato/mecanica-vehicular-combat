@@ -2,11 +2,10 @@ using Cinemachine;
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using UnityEditor.Rendering;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using static UnityEditor.Experimental.GraphView.GraphView;
+using TMPro;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -14,8 +13,12 @@ public class GameManager : MonoBehaviour
     public static event Action onGameFinished;
     public static event Action<string> onWinner;
 
-    [SerializeField] float countdown = 3;
-    float timer;
+    [SerializeField] int countdown = 3;
+    [SerializeField] Canvas countdownCanvas;
+    [SerializeField] TMP_Text countdownText;
+    [SerializeField] int reloadSceneAfter;
+
+    int timer;
 
     [Header("AI")]
     [SerializeField]
@@ -39,6 +42,10 @@ public class GameManager : MonoBehaviour
     {
         Time.timeScale = 0;
         gameStarted = false;
+        if (countdownCanvas)
+        {
+            countdownCanvas.enabled = false;
+        }
     }
 
     private void OnEnable()
@@ -93,6 +100,7 @@ public class GameManager : MonoBehaviour
         }
 
         onWinner?.Invoke(winnerName);
+        Invoke(nameof(SceneReload), reloadSceneAfter);
     }
 
     private void PrepareCharacters()
@@ -169,14 +177,35 @@ public class GameManager : MonoBehaviour
 
     IEnumerator Countdown()
     {
+        if (countdownCanvas)
+        {
+            countdownCanvas.enabled = true;
+        }
         timer = countdown;
-        Debug.Log(timer);
+        UpdateCountdownText(timer);
         while (timer > 0) {
             yield return new WaitForSeconds(1);
             timer--;
-            Debug.Log(timer);
+            UpdateCountdownText(timer);
+        }
+        if (countdownCanvas)
+        {
+            countdownCanvas.enabled = false;
         }
         gameStarted = true;
         onGameStarted?.Invoke();
+    }
+
+    private void UpdateCountdownText(int time)
+    {
+        if (countdownText)
+        {
+            countdownText.text = time.ToString();
+        }
+    }
+
+    private void SceneReload()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 }
