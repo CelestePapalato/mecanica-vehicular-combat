@@ -2,9 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class Item : MonoBehaviour
 {
+
+    public UnityAction onItemPicked;
+
     [SerializeField] PowerUp powerUp;
 
     private void OnTriggerEnter(Collider collider)
@@ -20,6 +24,7 @@ public class Item : MonoBehaviour
             b.Accept(powerUp);
         }
 
+        onItemPicked();
         Destroy(gameObject);
     }
 }
