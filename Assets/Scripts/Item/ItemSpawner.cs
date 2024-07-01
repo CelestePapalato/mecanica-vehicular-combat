@@ -40,7 +40,7 @@ public class ItemSpawner : MonoBehaviour
         currentItem = GetComponentInChildren<Item>();
         if(currentItem == null)
         {
-            SpawnItem();
+            InstanceItem();
         }
         else
         {

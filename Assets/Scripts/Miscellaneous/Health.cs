@@ -101,7 +101,7 @@ public class Health : MonoBehaviour, IDamageable, IHittable, IBuffable
         col.enabled = !value;
     }
 
-    private void OnDestroy()
+    private void OnDisable()
     {
         StopAllCoroutines();
     }

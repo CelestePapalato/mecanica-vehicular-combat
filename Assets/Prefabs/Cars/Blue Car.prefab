@@ -86,6 +86,7 @@ MonoBehaviour:
   maxSpeed: 30
   minDamage: 1
   maxDamage: 4
+  tolerance: 0.4
 --- !u!1 &2934073253307849815
 GameObject:
   m_ObjectHideFlags: 0

@@ -79,11 +79,12 @@ public class Car : StateMachine
         }
     }
 
-    private void DamageReceived(int health, int maxHealth)
+    private void DamageReceived(int currentHealth, int maxHealth)
     {
-        if(health == 0)
+        if(currentHealth == 0)
         {
             onDestroy?.Invoke(this);
+            health.gameObject.SetActive(false);
         }
     }
 

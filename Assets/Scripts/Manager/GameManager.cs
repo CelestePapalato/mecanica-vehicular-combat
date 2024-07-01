@@ -6,6 +6,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using TMPro;
 using UnityEngine.SceneManagement;
+using System.Linq;
 
 public class GameManager : MonoBehaviour
 {
@@ -84,21 +85,24 @@ public class GameManager : MonoBehaviour
             return;
         }
 
-        int i =  currentCars.IndexOf(car);
-        Debug.Log("Gana " + i + 1);
-        onGameFinished?.Invoke();
-
         string winnerName = "Player";
 
-        if(PlayerManager.CurrentPlayers.Length < 2 && i > 0)
+        currentCars.Remove(car);
+        Car winner = currentCars.FirstOrDefault();
+
+        PlayerInput input = winner.GetComponentInParent<PlayerInput>();
+        if (!input)
         {
             winnerName = "AI";
         }
         else
         {
+            int i = Array.FindIndex(PlayerManager.CurrentPlayers, p => p == input);
             winnerName = winnerName + " " + (i + 1);
         }
 
+        Debug.Log("Gana " + winnerName);
+        onGameFinished?.Invoke();
         onWinner?.Invoke(winnerName);
         Invoke(nameof(SceneReload), reloadSceneAfter);
     }
@@ -124,7 +128,8 @@ public class GameManager : MonoBehaviour
         {
             Car car = currentCars[i];
             Transform parent = car.transform.parent;
-            parent.position = startingPoints[i].position;
+            car.transform.position = startingPoints[i].position;
+            car.transform.rotation = startingPoints[i].rotation;
 
             int layerToAdd = (int)Mathf.Log(playerLayers[i].value, 2);
             int hurtboxLayer = (int)Mathf.Log(hurtboxLayers[i].value, 2);
