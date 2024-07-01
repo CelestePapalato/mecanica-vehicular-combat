@@ -47,5 +47,4 @@ MonoBehaviour:
   minSpawnTime: 5
   maxSpawnTime: 10
   items:
-  - {fileID: 5788623573225550400, guid: 5b7ede945ccd906498631c148fb578eb, type: 3}
   - {fileID: 8002189475642223857, guid: 72a07a6e50058f44683df97d29dd1873, type: 3}

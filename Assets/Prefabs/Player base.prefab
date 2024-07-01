@@ -490,7 +490,7 @@ MonoBehaviour:
   Brake: {fileID: 899593280897479473}
   cameraPivot: {fileID: 5544740166114446783}
   sensitivy: 1
-  smoothing: 0.041
+  smoothing: 0.023
   upperLookLimit: 30
   lowerLookLimit: -20
   speedText: {fileID: 8022350616226674498}

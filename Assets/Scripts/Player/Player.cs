@@ -85,9 +85,13 @@ public class Player : MonoBehaviour
         GameManager.onGameStarted -= EnableInput;
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
         RotateCameraPivot();
+    }
+
+    private void Update()
+    {        
         if (!carStateMachine) { return; }
         ControlBraking();
     }
